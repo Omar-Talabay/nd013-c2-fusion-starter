@@ -134,10 +134,10 @@ def compute_performance_stats(det_performance_all, configs_det=None):
     false_positives = np.sum([i[3] for i in pos_negs])
     #print('========================== ', positives, true_positives, false_negatives, false_positives)
     ## step 2 : compute precision
-    precision = true_positives / float(true_positives + false_positives)
+    precision = true_positives / (true_positives + false_positives)
 
     ## step 3 : compute recall 
-    recall = true_positives / float(true_positives + false_negatives)
+    recall = true_positives / (true_positives + false_negatives)
 
     #######    
     ####### ID_S4_EX3 END #######     
