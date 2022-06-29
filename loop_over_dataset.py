@@ -10,7 +10,7 @@
 # https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013
 # ----------------------------------------------------------------------
 #
-
+#precision = 0.6194503171247357, recall = 0.9575163398692811
 ##################
 ## Imports
 
@@ -49,8 +49,8 @@ import misc.params as params
 ## Set parameters and perform initializations
 
 ## Select Waymo Open Dataset file and frame numbers
-# data_filename = 'training_segment-1005081002024129653_5313_150_5333_150_with_camera_labels.tfrecord' # Sequence 1
-# data_filename = 'training_segment-10072231702153043603_5725_000_5745_000_with_camera_labels.tfrecord' # Sequence 2
+#data_filename = 'training_segment-1005081002024129653_5313_150_5333_150_with_camera_labels.tfrecord' # Sequence 1
+#data_filename = 'training_segment-10072231702153043603_5725_000_5745_000_with_camera_labels.tfrecord' # Sequence 2
 data_filename = 'training_segment-10963653239323173269_1924_000_1944_000_with_camera_labels.tfrecord' # Sequence 3
 show_only_frames = [0, 200] # show only frames in interval for debugging
 
@@ -58,7 +58,7 @@ show_only_frames = [0, 200] # show only frames in interval for debugging
 data_fullpath = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'dataset', data_filename) # adjustable path in case this script is called from another working directory
 model = "darknet"
 sequence = "3"
-results_fullpath = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'results/' + model + '/results_sequence_' + sequence + '_' + model)
+results_fullpath = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'results/' + model + '/results_sequence_' + sequence + '_' + model.split('-')[-1])
 datafile = WaymoDataFileReader(data_fullpath)
 datafile_iter = iter(datafile)  # initialize dataset iterator
 
@@ -80,12 +80,13 @@ camera = None # init camera sensor object
 np.random.seed(10) # make random values predictable
 
 ## Selective execution and visualization
-exec_detection = ['bev_from_pcl', 'detect_objects', 'validate_object_labels', 'measure_detection_performance'] # options are 'bev_from_pcl', 'detect_objects', 'validate_object_labels', 'measure_detection_performance'; options not in the list will be loaded from file
+exec_detection = []
+#['bev_from_pcl', 'detect_objects', 'validate_object_labels', 'measure_detection_performance'] # options are 'bev_from_pcl', 'detect_objects', 'validate_object_labels', 'measure_detection_performance'; options not in the list will be loaded from file
 exec_tracking = [] # options are 'perform_tracking'
-exec_visualization = [] # options are 'show_range_image', 'show_bev', 'show_pcl', 'show_labels_in_image', 'show_objects_and_labels_in_bev', 'show_objects_in_bev_labels_in_camera', 'show_tracks', 'show_detection_performance', 'make_tracking_movie'
+exec_visualization = ['show_pcl'] # options are 'show_range_image', 'show_bev', 'show_pcl', 'show_labels_in_image', 
+#'show_objects_and_labels_in_bev', 'show_objects_in_bev_labels_in_camera', 'show_tracks', 'show_detection_performance', 'make_tracking_movie'
 exec_list = make_exec_list(exec_detection, exec_tracking, exec_visualization)
 vis_pause_time = 0 # set pause time between frames in ms (0 = stop between frames until key is pressed)
-
 
 ##################
 ## Perform detection & tracking over all selected frames
